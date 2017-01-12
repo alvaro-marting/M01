@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>egc.Alvaro</groupId>
-  <artifactId>proy1</artifactId>
+  <artifactId>M01</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>proy1</name>
+  <name>M01</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -15,30 +15,54 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<scope>system</scope>
-        <groupId>jgrapht</groupId>
-        <artifactId>jgrapht</artifactId>
-        <version>holamundo</version>
-        <systemPath>${basedir}\lib\jgrapht-core-1.0.0.jar</systemPath>
+        <groupId>org.jgrapht</groupId>
+        <artifactId>jgrapht-core</artifactId>
+        <version>1.0.0</version>
     </dependency>
     <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>1.2.12</version>
+        <scope>compile</scope>
       </dependency>
   </dependencies>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.tomcat.maven</groupId>
-          <artifactId>tomcat6-maven-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.tomcat.maven</groupId>
-          <artifactId>tomcat7-maven-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+  <build>
+	<plugins>
+  		<!-- Make this jar executable -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>2.6</version>
+			<configuration>
+                        <!--Pluging configuration -->
+                            <archive>
+                                    <manifest>
+                                            <!-- Jar file entry point -->
+                                            <mainClass>${project.groupId}.App</mainClass>
+                                    </manifest>
+                            </archive>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix> dependencias/</classpathPrefix>
+			</configuration>
+		</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.10</version>
+                    <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                        <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                        <outputDirectory>${project.build.directory}/dependencias</outputDirectory>
+                        <includeScope> runtime </includeScope> 
+                        </configuration>
+                    </execution>
+                    </executions>
+                </plugin>
+	</plugins>
+  </build>  
 </project>
